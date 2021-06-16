@@ -1,15 +1,8 @@
-import { DateTime } from 'luxon';
+import { ApiProperty } from '@nestjs/swagger';
 
-export interface Transference {
-  uuid: string;
-  amount: number;
-  source: Source;
-  date: DateTime;
-  category: Category;
-}
-
-interface Source {
+export class Source {
   id: number;
+  @ApiProperty()
   name: SourceName;
   description: string;
 }
@@ -38,8 +31,9 @@ export const SOURCES: Record<SourceName, Source> = {
   },
 };
 
-interface Category {
+export class Category {
   id: number;
+  @ApiProperty()
   name: CategoryName;
   description: string;
 }
