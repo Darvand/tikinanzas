@@ -1,16 +1,49 @@
 import { ApiProperty } from '@nestjs/swagger';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+enum SourceName {
+  SALARY = 'Salary',
+  ACCOUNT = 'Account',
+  CREDIT_CARD = 'Credit Card',
+}
+
+enum CategoryName {
+  FOOD = 'Food',
+  TRAVEL = 'Travel',
+  TAX = 'Tax',
+  COMBUSTIBLE = 'Combustible',
+  GAMES = 'Games',
+  HEALTH = 'Health',
+}
+@Entity()
+export class Transference {
+  @PrimaryGeneratedColumn('uuid')
+  uuid: string;
+  @Column({ type: 'int' })
+  amount: number;
+  @Column({ type: 'enum', enum: SourceName })
+  source: SourceName;
+  @Column({ type: 'timestamp' })
+  date: Date;
+  @Column({ type: 'enum', enum: CategoryName })
+  category: CategoryName;
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createAt: Date;
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updateAt: Date;
+}
 
 export class Source {
   id: number;
   @ApiProperty()
   name: SourceName;
   description: string;
-}
-
-enum SourceName {
-  SALARY = 'Salary',
-  ACCOUNT = 'Account',
-  CREDIT_CARD = 'Credit Card',
 }
 
 export const SOURCES: Record<SourceName, Source> = {
@@ -36,15 +69,6 @@ export class Category {
   @ApiProperty()
   name: CategoryName;
   description: string;
-}
-
-enum CategoryName {
-  FOOD = 'Food',
-  TRAVEL = 'Travel',
-  TAX = 'Tax',
-  COMBUSTIBLE = 'Combustible',
-  GAMES = 'Games',
-  HEALTH = 'Health',
 }
 
 export const CATEGORIES: Record<CategoryName, Category> = {
