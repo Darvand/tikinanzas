@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { DateTime } from 'luxon';
+import { Client } from 'pg';
 import { GetTransferencesDto } from './transferences.dto';
 import { CATEGORIES, SOURCES } from './transferences.entity';
 
@@ -14,7 +15,14 @@ export class TransferencesService {
       source: SOURCES['Credit Card'],
     },
   ];
-  getAll(): GetTransferencesDto[] {
-    return this.transferences;
+
+  constructor(@Inject('PG') private clientPg: Client) {}
+
+  getAll() {
+    return new Promise((resolve, reject) => {
+      this.clientPg.query('SELECT * FROM transferences', (err, res) => {
+        err ? reject(err) : resolve(res.rows);
+      });
+    });
   }
 }
