@@ -6,6 +6,7 @@ import { TransferencesModule } from './transferences/transferences.module';
 import { DatabaseModule } from './database/database.module';
 import environments from './environments';
 import { configObject, configSchema } from './config';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { configObject, configSchema } from './config';
       isGlobal: true,
       validationSchema: configSchema,
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
