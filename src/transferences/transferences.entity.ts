@@ -1,19 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from 'src/users/users.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-enum SourceName {
+export enum SourceName {
   SALARY = 'Salary',
   ACCOUNT = 'Account',
   CREDIT_CARD = 'Credit Card',
 }
 
-enum CategoryName {
+export enum CategoryName {
   FOOD = 'Food',
   TRAVEL = 'Travel',
   TAX = 'Tax',
@@ -33,6 +35,8 @@ export class Transference {
   date: Date;
   @Column({ type: 'enum', enum: CategoryName })
   category: CategoryName;
+  @ManyToOne(() => User, (user) => user.transferences, { nullable: false })
+  user: User;
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createAt: Date;
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

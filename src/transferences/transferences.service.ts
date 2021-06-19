@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { GetTransferencesDto } from './transferences.dto';
+import {
+  CreateTransferenceDto,
+  GetTransferencesDto,
+} from './transferences.dto';
 import { Transference } from './transferences.entity';
 
 @Injectable()
@@ -16,5 +19,11 @@ export class TransferencesService {
     return transferences.map(
       (transference) => new GetTransferencesDto(transference),
     );
+  }
+
+  create(transferenceDto: CreateTransferenceDto) {
+    const transference = this.transferenceRepo.create(transferenceDto);
+    console.log(transferenceDto, transference);
+    return this.transferenceRepo.save(transference);
   }
 }
