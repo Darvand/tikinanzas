@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 import { CheckUserPipe } from './check-user.pipe';
 import { CreateTransferenceDto } from './transferences.dto';
 import { TransferencesService } from './transferences.service';
+import { JWT_STRATEGY_KEY } from 'src/auth/strategies/jwt.strategy';
 
 @ApiTags('transferences')
+@UseGuards(AuthGuard(JWT_STRATEGY_KEY))
 @Controller('transferences')
 export class TransferencesController {
   constructor(private transferencesService: TransferencesService) {}
