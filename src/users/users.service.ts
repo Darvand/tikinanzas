@@ -22,4 +22,8 @@ export class UsersService {
     const user = this.userRepo.create({ ...userDto, password });
     return this.userRepo.save(user);
   }
+
+  findByEmail(email: string) {
+    return this.userRepo.findOne({ where: { email } });
+  }
 }
