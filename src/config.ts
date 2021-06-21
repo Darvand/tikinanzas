@@ -9,6 +9,9 @@ export const configObject = registerAs('config', () => ({
     host: process.env.POSTGRES_HOST,
     port: Number(process.env.POSTGRES_PORT),
   },
+  auth: {
+    jwtSecret: process.env.JWT_SECRET,
+  },
 }));
 
 export const configSchema = Joi.object({
@@ -17,4 +20,5 @@ export const configSchema = Joi.object({
   POSTGRES_PASSWORD: Joi.string().required(),
   POSTGRES_PORT: Joi.number().required(),
   POSTGRES_HOST: Joi.string().required(),
+  JWT_SECRET: Joi.string().required(),
 });

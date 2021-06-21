@@ -1,11 +1,16 @@
 import * as bcrypt from 'bcrypt';
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { User } from 'src/users/users.entity';
+import { PayloadToken } from './token.model';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UsersService) {}
+  constructor(
+    private userService: UsersService,
+    private jwtService: JwtService,
+  ) {}
   /**
    * @param  {string} email
    * @param  {string} password
@@ -19,5 +24,13 @@ export class AuthService {
       return isMatch ? user : null;
     }
     return null;
+  }
+
+  async generateJwt(user: User) {
+    const payload: PayloadToken = { sub: user.uuid };
+    return {
+      access_token: this.jwtService.sign(payload),
+      user: { email: user.email, name: user.name, uuid: user.uuid },
+    };
   }
 }
