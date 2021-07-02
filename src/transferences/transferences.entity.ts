@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -23,7 +24,7 @@ export enum CategoryName {
   GAMES = 'Games',
   HEALTH = 'Health',
 }
-@Entity()
+@Entity({ name: 'transferences' })
 export class Transference {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
@@ -36,10 +37,19 @@ export class Transference {
   @Column({ type: 'enum', enum: CategoryName })
   category: CategoryName;
   @ManyToOne(() => User, (user) => user.transferences, { nullable: false })
+  @JoinColumn({ name: 'user_uuid' })
   user: User;
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({
+    name: 'create_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createAt: Date;
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    name: 'update_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updateAt: Date;
 }
 
