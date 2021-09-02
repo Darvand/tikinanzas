@@ -19,3 +19,17 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=root
     ports:
       - '5050:80'
+
+  tikinanzas:
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - '3000:3000'
+    environment:
+      - POSTGRES_DB=tikinanzas
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=postgres
+      - JWT_SECRET=averyspecialsecret
